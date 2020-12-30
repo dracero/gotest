@@ -7,7 +7,7 @@ import (
     "log"
     "io/ioutil"
     "net/http"
-
+    "os"
     "github.com/gorilla/mux"
 )
 
@@ -76,8 +76,19 @@ func handleRequests() {
     myRouter.HandleFunc("/article", createNewArticle).Methods("POST")
     myRouter.HandleFunc("/article/{id}", deleteArticle).Methods("DELETE")
     myRouter.HandleFunc("/article/{id}", returnSingleArticle)
-    log.Fatal(http.ListenAndServe(":10000", myRouter))
+    log.Fatal(http.ListenAndServe(GetPort(), nil))
 }
+
+// Get the Port from the environment so we can run on Heroku
+func GetPort() string {
+var port = os.Getenv("PORT")
+// Set a default port if there is nothing in the environment
+if port == "" {
+		port = "4747"
+ 		fmt.Println("INFO: No PORT environment variable detected, defaulting to " + port)
+ 	}
+ 	return ":" + port
+ }
 
 func main() {
     Articles = []Article{
