@@ -13,7 +13,7 @@ func homePage(w http.ResponseWriter, r *http.Request){
 
 func handleRequests() {
     http.HandleFunc("/", homePage)
-    log.Fatal(http.ListenAndServe("process.env.PORT || 3000", nil))
+    log.Fatal(http.ListenAndServe(":3000", nil))
 }
 
 
