@@ -27,7 +27,6 @@ if port == "" {
  	}
  	return ":" + port
  }
-
 func main() {
     handleRequests()
 }
