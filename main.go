@@ -10,6 +10,7 @@ import (
 )
 
 type Article struct {
+    Id string `json:"Id"`	
     Title string `json:"Title"`
     Desc string `json:"desc"`
     Content string `json:"content"`
@@ -38,7 +39,8 @@ func handleRequests() {
     myRouter.HandleFunc("/articles", returnAllArticles)
     // finally, instead of passing in nil, we want
     // to pass in our newly created router as the second
-    // argument	
+    // argument
+   myRouter.HandleFunc("/article/{id}", returnSingleArticle)
    log.Fatal(http.ListenAndServe(GetPort(), myRouter))
 }
 
@@ -53,10 +55,24 @@ if port == "" {
  	return ":" + port
  }
 
+func returnSingleArticle(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    key := vars["id"]
+
+    // Loop over all of our Articles
+    // if the article.Id equals the key we pass in
+    // return the article encoded as JSON
+    for _, article := range Articles {
+        if article.Id == key {
+            json.NewEncoder(w).Encode(article)
+        }
+    }
+}
+
 func main() {
     Articles = []Article{
-        Article{Title: "Hello", Desc: "Article Description", Content: "Article Content"},
-        Article{Title: "Hello 2", Desc: "Article Description", Content: "Article Content"},
+        Article{Id: "1",Title: "Hello", Desc: "Article Description", Content: "Article Content"},
+        Article{Id: "2",Title: "Hello 2", Desc: "Article Description", Content: "Article Content"},
     }
     handleRequests()
 }
