@@ -39,7 +39,7 @@ func handleRequests() {
     // finally, instead of passing in nil, we want
     // to pass in our newly created router as the second
     // argument	
-   log.Fatal(http.ListenAndServe(GetPort(), router))
+   log.Fatal(http.ListenAndServe(GetPort(), myRouter))
 }
 
 // Get the Port from the environment so we can run on Heroku
