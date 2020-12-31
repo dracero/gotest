@@ -62,7 +62,7 @@ func returnSingleArticle(w http.ResponseWriter, r *http.Request) {
     // Loop over all of our Articles
     // if the article.Id equals the key we pass in
     // return the article encoded as JSON
-    for key, article := range Articles {
+    for _, article := range Articles {
         if article.Id == key {
             json.NewEncoder(w).Encode(article)
         }
