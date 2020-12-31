@@ -5,7 +5,8 @@ import (
     "log"
     "net/http"
     "encoding/json"
-    "os"	
+    "os"
+    "github.com/gorilla/mux"
 )
 
 type Article struct {
@@ -30,9 +31,15 @@ func returnAllArticles(w http.ResponseWriter, r *http.Request){
 }
 
 func handleRequests() {
-    http.HandleFunc("/", homePage)
-    http.HandleFunc("/articles", returnAllArticles)		
-	log.Fatal(http.ListenAndServe(GetPort(), nil))
+    // creates a new instance of a mux router
+    myRouter := mux.NewRouter().StrictSlash(true)
+    // replace http.HandleFunc with myRouter.HandleFunc
+    myRouter.HandleFunc("/", homePage)
+    myRouter.HandleFunc("/articles", returnAllArticles)
+    // finally, instead of passing in nil, we want
+    // to pass in our newly created router as the second
+    // argument	
+   log.Fatal(http.ListenAndServe(GetPort(), nil))
 }
 
 // Get the Port from the environment so we can run on Heroku
