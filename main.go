@@ -6,6 +6,7 @@ import (
     "log"
     "net/http"
     "encoding/json"
+    "io/ioutil"
     "os"
     "github.com/gorilla/mux"
 )
